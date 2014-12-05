@@ -1,5 +1,6 @@
 var should = require('chai').should();
 var expect = require('chai').expect;
+var assert = require('chai').assert;
 var _ = require('../');
 
 describe('#c-struct', function() {
@@ -54,7 +55,9 @@ describe('#c-struct', function() {
     });
 
     // buffer to object
-    buf.toString('hex').should.equal('0500466f6f626172000000000000000000008813009f8601006477656c636f6d65007765656b6c7900017472617073206f66207468756e646572000000000000000000000000000000000fe20d3301020000000000000000000000000000000000000000000000000000000000000000000000000000666174616c20626c6f770000000000000000000000000000000000000000000000000000000367616c76616e6f20737472696b65000000000000000000000000000000000000000000000066005f01ffe0f5050000');
+    // buf.toString('hex').should.equal('0500466f6f626172000000000000000000008813009f8601006477656c636f6d65007765656b6c7900017472617073206f66207468756e646572000000000000000000000000000000000fe20d3301020000000000000000000000000000000000000000000000000000000000000000000000000000666174616c20626c6f770000000000000000000000000000000000000000000000000000000367616c76616e6f20737472696b65000000000000000000000000000000000000000000000066005f01ffe0f5050000');
+    // removed null bytes
+    buf.toString('hex').should.equal('0500466f6f626172000000000000000000008813009f8601006477656c636f6d657765656b6c79017472617073206f66207468756e646572000000000000000000000000000000000fe20d3301020000000000000000000000000000000000000000000000000000000000000000000000000000666174616c20626c6f770000000000000000000000000000000000000000000000000000000367616c76616e6f20737472696b65000000000000000000000000000000000000000000000066005f01ffe0f5050000');
     buf.toString('hex').should.not.equal('0100466f6f62617200000000000000000000e8030038564c056477656c636f6d65007765656b6c7900017472617073206f66207468756e646572000000000000000000000000000000000fe20d3301020000000000000000000000000000000000000000000000000000000000000000000000000000666174616c20626c6f770000000000000000000000000000000000000000000000000000000367616c76616e6f20737472696b65000000000000000000000000000000000000000000000066005f01ffe0f5050000');
     done();
   });
@@ -120,6 +123,65 @@ describe('#c-struct', function() {
     obj.should.have.property('hp', 1000);
     obj.should.have.property('exp', 88888888);
     obj.should.have.property('status', 100);
+
+    done();
+  });
+
+  it('should get Schema size', function(done) {
+
+    var playerSchema = new _.Schema({
+      id: _.type.uint16,
+      name: _.type.string(16),
+      hp: _.type.uint24,
+      exp: _.type.uint32,
+      status: _.type.uint8,
+      motd: _.type.string(), // null-terminated
+      motw: _.type.string(7), // null-terminated
+      skills: [{
+        id: _.type.uint8,
+        name: _.type.string(32),
+        secret: _.type.uint40
+      }],
+      position: {
+        x: _.type.uint16,
+        y: _.type.uint16
+      },
+      hash: _.type.uint48
+    });
+
+    // register
+    _.register('Player', playerSchema);
+
+    var p = _.retrieve('Player');
+
+    var s = _.sizeOf('Player');
+    console.log(s, p);
+
+    assert(isNaN(s));
+
+    // assert.equal('foo', 'bar');
+
+    var sizablePlayerSchema = new _.Schema({
+      id: _.type.uint16,
+      name: _.type.string(16),
+      hp: _.type.uint24,
+      exp: _.type.uint32,
+      status: _.type.uint8,
+      motw: _.type.string(7),
+      position: {
+        x: _.type.uint16,
+        y: _.type.uint16
+      },
+      hash: _.type.uint48
+    });
+
+    // register
+    _.register('SizePlayer', sizablePlayerSchema);
+
+    var p2 = _.retrieve('SizePlayer');
+
+    var s2 = _.sizeOf('SizePlayer');
+    s2.should.equal(34);
 
     done();
   });
