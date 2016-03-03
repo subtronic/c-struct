@@ -9,7 +9,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "repository": "majimboo/c-struct",
+  "repository": "lerela/c-struct",
   "keywords": [
     "struct",
     "binary",
