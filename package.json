@@ -1,6 +1,6 @@
 {
   "name": "c-struct",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A C-struct library to manage binary structures with Node.JS",
   "main": "index.js",
   "directories": {
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "repository": "lerela/c-struct",
+  "repository": "subtronic/c-struct",
   "keywords": [
     "struct",
     "binary",
