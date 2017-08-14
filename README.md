@@ -1,4 +1,4 @@
-c-struct [![Build Status](https://travis-ci.org/majimboo/c-struct.svg?branch=master)](https://travis-ci.org/majimboo/c-struct)
+c-struct [![Build Status](https://travis-ci.org/subtronic/c-struct.svg?branch=master)](https://travis-ci.org/subtronic/c-struct)
 ========
 
 [![NPM](https://nodei.co/npm/c-struct.png?downloads=true)](https://nodei.co/npm/c-struct/)
