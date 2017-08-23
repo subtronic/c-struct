@@ -1,6 +1,6 @@
 {
   "name": "c-struct",
-  "version": "0.0.4",
+  "version": "1.0.0",
   "description": "A C-struct library to manage binary structures with Node.JS",
   "main": "index.js",
   "directories": {
@@ -28,5 +28,8 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "mocha": "^1.20.1"
+  },
+  "dependencies": {
+    "ref": "^1.3.4"
   }
 }
